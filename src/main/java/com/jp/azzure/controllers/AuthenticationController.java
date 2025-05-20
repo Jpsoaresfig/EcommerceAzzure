@@ -4,8 +4,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jp.azzure.domain.user.AuthenticationDTO;
+import com.jp.azzure.domain.user.LoginResponseDTO;
 import com.jp.azzure.domain.user.RegisterDTO;
 import com.jp.azzure.domain.user.User;
+import com.jp.azzure.infra.Security.TokenService;
 import com.jp.azzure.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +29,21 @@ public class AuthenticationController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid AuthenticationDTO data) {
 
         var usernamepassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
         var auth = this.authenticationManager.authenticate(usernamepassword);// autentica o usuario
-        return ResponseEntity.ok().build();
+
+        var token = tokenService.generateToken((User) auth.getPrincipal());// gera o token
+
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
+
+
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid RegisterDTO data) {
@@ -43,7 +53,8 @@ public class AuthenticationController {
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
         var user = new User(data.email(), encryptedPassword, data.role());
 
-        this.userRepository.save(new User(data.email(), encryptedPassword, data.role())); // salva o usuario no banco de dados (user);
+        this.userRepository.save(new User(data.email(), encryptedPassword, data.role())); 
+                                                                                          
 
         return ResponseEntity.ok().build();
     }
