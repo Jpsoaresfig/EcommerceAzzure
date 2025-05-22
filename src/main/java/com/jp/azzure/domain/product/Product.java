@@ -18,4 +18,3 @@ public class Product {
     private Long price;
     private String imageUrl;
 }
-

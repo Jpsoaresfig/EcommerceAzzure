@@ -18,7 +18,7 @@ public class AuthorizationService implements UserDetailsService {
     private UserRepository userRepository; //injected repository
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException { //verify if user exists
         
        return userRepository.findByEmail(username)
                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));

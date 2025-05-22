@@ -1,16 +1,18 @@
-package com.jp.azzure.controllers; 
+package com.jp.azzure.controllers;
 
 import com.jp.azzure.domain.product.Product;
 import com.jp.azzure.services.ProductService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/products")
+
 public class ProductController {
 
     private final ProductService productService; // Injete o ProductService
@@ -19,6 +21,7 @@ public class ProductController {
         this.productService = productService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         Product savedProduct = productService.addProduct(product);
