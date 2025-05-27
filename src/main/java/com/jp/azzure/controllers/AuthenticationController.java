@@ -33,12 +33,12 @@ public class AuthenticationController {
     private TokenService tokenService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody @Valid AuthenticationDTO data) {
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid AuthenticationDTO data) {
 
         var usernamepassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
         var auth = this.authenticationManager.authenticate(usernamepassword);// autentica o usuario
 
-        var token = tokenService.generateToken((User) auth.getPrincipal());// gera o token
+        var token = tokenService.generateToken((User) auth.getPrincipal());
 
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
@@ -46,14 +46,17 @@ public class AuthenticationController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody @Valid RegisterDTO data) {
+    public ResponseEntity<?> register(@RequestBody @Valid RegisterDTO data) {// a ? indica que pode ser qualquer tipo de resposta
         if (this.userRepository.findByEmail(data.email()).isPresent()) {
-            return ResponseEntity.badRequest().body("Email already exists");
+            return ResponseEntity.badRequest().body("Email already existss");
         }
-        String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
+        if(this.userRepository.findByEmail(String.valueOf(data.email())).isPresent() || data.email().trim().isEmpty()){
+            return ResponseEntity.badRequest().body("Email cannot be null or empty");
+        }
+        String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());// BCryptPasswordEncoder é usado para criptografar a senha que é uma função do Spring Security
         var user = new User(data.email(), encryptedPassword, data.role());
 
-        this.userRepository.save(new User(data.email(), encryptedPassword, data.role())); 
+        this.userRepository.save(user); 
                                                                                           
 
         return ResponseEntity.ok().build();

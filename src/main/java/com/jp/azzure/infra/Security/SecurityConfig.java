@@ -29,9 +29,10 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))// session
                                                                                                              // stateless
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()//REMOVER DEPOS SE NECESSÁRIO
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll() // login
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll() // register
-                        .requestMatchers(HttpMethod.POST, "/products").hasRole("ADMIN") // product
+                        .requestMatchers(HttpMethod.POST, "/products").hasRole("ADMIN") // only admin can create products
                         
                         .anyRequest().authenticated() // any request
 
