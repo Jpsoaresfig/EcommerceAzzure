@@ -2,14 +2,12 @@ package com.jp.azzure.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.jp.azzure.domain.user.AuthenticationDTO;
 import com.jp.azzure.domain.user.LoginResponseDTO;
 import com.jp.azzure.domain.user.RegisterDTO;
 import com.jp.azzure.domain.user.User;
 import com.jp.azzure.infra.Security.TokenService;
 import com.jp.azzure.repository.UserRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
