@@ -37,18 +37,20 @@ public class TokenService {
 
     }
 
-    public String getSubject(String token) {// verify the token and get the subject
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
-            return JWT.require(algorithm)
-                    .withIssuer("auth-api")
-                    .build()
-                    .verify(token)
-                    .getSubject();
-        } catch (Exception e) {
-            throw new RuntimeException("Error getting subject from token", e);
-        }
+    public String getSubject(String token) {
+    try {
+        Algorithm algorithm = Algorithm.HMAC256(secret);
+        return JWT.require(algorithm)
+                .withIssuer("auth-api")
+                .build()
+                .verify(token)
+                .getSubject();
+    } catch (Exception e) {
+        System.out.println("Token inválido ou expirado: " + e.getMessage());
+        return null;  
     }
+}
+
 
     private Instant genExpirationDate() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));

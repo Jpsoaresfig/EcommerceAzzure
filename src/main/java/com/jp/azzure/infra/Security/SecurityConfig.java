@@ -47,7 +47,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll() // login
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll() // register
                         .requestMatchers(HttpMethod.POST, "/products").hasRole("ADMIN") // only admin can create
-                                                                                        // products
+                        .requestMatchers(HttpMethod.GET, "/products").permitAll() // anyone can see products
+                                                                                  // products
 
                         .anyRequest().authenticated() // any request
 
@@ -70,7 +71,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSources() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:3000/login"); // front-end que vai acessar
+        configuration.addAllowedOrigin("http://localhost:3000"); // front-end que vai acessar
         configuration.addAllowedMethod("*"); // permitir todos os métodos (GET, POST, etc)
         configuration.addAllowedHeader("*"); // permitir todos os headers
         configuration.setAllowCredentials(true); // se precisar enviar cookies, tokens etc
