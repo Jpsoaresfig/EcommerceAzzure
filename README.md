@@ -47,6 +47,15 @@ cd EcommerceAzzure</pre>
         <li><strong>Documentação da API</strong> com Swagger/OpenAPI</li>
     </ul>
 
+<h2>Integração com SonarQube</h2>
+  <p>O projeto utiliza o <strong>SonarQube</strong> para análise estática de código, visando garantir a qualidade e segurança do código-fonte. A configuração básica inclui:</p>
+  <ul>
+    <li><strong>SonarQube Scanner</strong>: Ferramenta para análise do código.</li>
+    <li><strong>ESLint</strong>: Configurado para gerar relatórios de linting compatíveis com o SonarQube.</li>
+    <li><strong>Jest</strong>: Configurado para gerar relatórios de cobertura de testes compatíveis com o SonarQube.</li>
+  </ul>
+  <p>Para mais informações sobre como integrar o SonarQube em projetos React, consulte a documentação oficial: <a href="https://www.sonarsource.com/blog/clean-react-code-sonarqube/">Clean React Code with SonarQube</a>.</p>
+
   <h2>Próximos Passos / Melhorias Futuras</h2>
     <ul>
         <li>Implementar autenticação e autorização</li>
